@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <LangVersion>8.0</LangVersion>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <!-- version numbers will be updated by build -->
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
+    <VersionPrefix>1.0.1</VersionPrefix>
+    <VersionSuffix>beta1</VersionSuffix>
+    <Authors>Nandan Mathure,Anurag Sareen</Authors>
+    <Company></Company>
+    <Product>Newtonsoft.Extensions</Product>
+    <Description>CloudNDevOps.Newtonsoft.Extensions is a library that extends functionality provided by Newtonsoft needed by common applications. One of such functionalities is ability to de-serialize collection of object families.</Description>
+    <Copyright>Copyright © Nandan Mathure, Anurag Sareen</Copyright>
+    <Summary>CloudNDevOps.Newtonsoft.Extensions is a library that extends functionality provided by Newtonsoft needed by common applications</Summary>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Title>CloudNDevOps.Newtonsoft.Extensions</Title>
+    <PackageId>CloudNDevOps.Newtonsoft.Extensions</PackageId>
+    <PackageTags>json</PackageTags>
+    <PackageProjectUrl>https://github.com/users/nvmathure/projects/3</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <AssemblyName>CloudNDevOps.Newtonsoft.Extensions</AssemblyName>
+    <RootNamespace>CloudNDevOps.Newtonsoft.Extensions</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Nullable>enable</Nullable>
+    <MinClientVersion>2.12</MinClientVersion>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <RepositoryUrl>https://github.com/nvmathure/NewtonsoftExtensions</RepositoryUrl>
+    <Version>1.0.1-beta1</Version>
+    <!--<CodeAnalysisRuleset>Newtonsoft.Json.ruleset</CodeAnalysisRuleset>-->
+
+
+
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+</Project>
