@@ -7,7 +7,7 @@ pr:
      - master
 
 variables:
-  solutionFile : '$(Build.SourcesDirectory)/Src/NewtonsoftExtensions.sln'
+  solutionFile : '$(Build.SourcesDirectory)\Src\NewtonsoftExtensions.sln'
   configuration: 'release'
 
 stages:
@@ -16,7 +16,7 @@ stages:
   - job: Build
 
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: 'windows-latest'
 
     steps:
     - task: SonarCloudPrepare@1
@@ -26,7 +26,7 @@ stages:
         scannerMode: 'MSBuild'
         projectKey: 'Newtonsoft.Extensions'
         projectName: 'Newtonsoft.Extensions'
-        extraProperties: 'sonar.cs.vscoveragexml.reportsPaths = $(Build/SourceDirectory)/Src/**/coverage.xml'
+        extraProperties: 'sonar.cs.vscoveragexml.reportsPaths = $(Build.SourceDirectory)\Src\**\coverage.xml'
     
     - task: DotNetCoreCLI@2
       displayName: Restore NuGet Packages
