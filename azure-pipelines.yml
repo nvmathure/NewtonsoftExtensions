@@ -15,14 +15,34 @@ stages:
 
     steps:
     - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: 'SonarCloud-Public'
+        organization: 'cloudndevops'
+        scannerMode: 'MSBuild'
+        projectKey: 'Newtonsoft.Extensions'
+        projectName: 'Newtonsoft.Extensions'
+        extraProperties: 'sonar.cs.vscoveragexml.reportsPaths = $(Build/SourceDirectory)/Src/**/coverage.xml'
     
     - task: DotNetCoreCLI@2
+      displayName: Restore NuGet Packages
       inputs:
         command: restore
         projects: $(solutionFile)
 
     - task: DotNetCoreCLI@2
+      displayName: Build Solution
       inputs:
         command: build
         projects: $(solutionFile)
-        arguments: --configuration $(configuration)
+        arguments: --configuration $(configuration) --no-restore
+
+    - task: DotNetCoreCLI@2
+      displayName: Execute Test Cases
+      inputs:
+        command: test
+        projects: $(solutionFile)
+        arguments: --configuration $(configuration) --no-build
+
+    - task: SonarCloudAnalyze@1
+
+    - task: SonarCloudPublish@1
