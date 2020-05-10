@@ -39,7 +39,7 @@ First parameter is function, which need to return value of classifier based on i
 
 ```C#
 var typeFamilyConverter = new TypeFamilyConverter<Customer, string>(
-    new Func<Entity<string>, string>(e => e.Classifier),
+    new Func<Customer, string>(e => e.Classifier),
     new Dictionary<string, Type>
     {
         { "Individual", typeof(Individual) },
