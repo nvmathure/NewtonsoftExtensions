@@ -28,6 +28,11 @@ using System.Linq;
 
 namespace CloudNDevOps.Newtonsoft.Extensions
 {
+    /// <summary>
+    /// Defines customer convertor for Newtonsoft.Json to convert families of types into List/Array
+    /// </summary>
+    /// <typeparam name="TBase">Type of base class of family</typeparam>
+    /// <typeparam name="TBaseClassifier">Data type of classifier which can identify derived class</typeparam>
     public class TypeFamilyConverter<TBase, TBaseClassifier> : JsonConverter
     {
         private readonly Func<TBase, TBaseClassifier> _typeValueFunc;

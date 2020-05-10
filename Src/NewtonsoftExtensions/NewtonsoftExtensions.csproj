@@ -5,8 +5,8 @@
     <!-- version numbers will be updated by build -->
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0</FileVersion>
-    <VersionPrefix>1.0.1</VersionPrefix>
-    <VersionSuffix>beta1</VersionSuffix>
+    <VersionPrefix>1.0.2</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
     <Authors>Nandan Mathure,Anurag Sareen</Authors>
     <Company></Company>
     <Product>Newtonsoft.Extensions</Product>
@@ -28,7 +28,7 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <RepositoryUrl>https://github.com/nvmathure/NewtonsoftExtensions</RepositoryUrl>
-    <Version>1.0.1-beta1</Version>
+    <Version>1.0.2</Version>
     <!--<CodeAnalysisRuleset>Newtonsoft.Json.ruleset</CodeAnalysisRuleset>-->
 
 
