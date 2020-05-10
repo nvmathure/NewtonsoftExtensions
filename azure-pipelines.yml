@@ -8,10 +8,9 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'restore'
-    projects: '${Build.SourcesDirectory}\Src\NewtonsoftExtensions.sln'
-    feedsToUse: 'select'
+    projects: '$(Build.SourcesDirectory)\Src\NewtonsoftExtensions.sln'
 
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
-    projects: '${Build.SourcesDirectory}\Src\NewtonsoftExtensions.sln'
+    projects: '$(Build.SourcesDirectory)\Src\NewtonsoftExtensions.sln'
