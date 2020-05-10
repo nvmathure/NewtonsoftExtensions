@@ -1,7 +1,7 @@
 # CloudNDevOps.Newtonsoft.Extensions
 
 CloudNDevOps.Newtonsoft.Extensions is a library that extends functionality provided by Newtonsoft needed by common applications. One of such functionalities is ability to de-serialize collection of object families.
-retgre
+
 ## Installation
 
 Use the package manager [NuGet](https://www.nuget.org/) to install CloudNDevOps.Newtonsoft.Extensions.
