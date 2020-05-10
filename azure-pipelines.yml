@@ -4,13 +4,9 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+
 steps:
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'restore'
-    projects: '$(Build.SourcesDirectory)\Src\NewtonsoftExtensions.sln'
-
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
-    projects: '$(Build.SourcesDirectory)\Src\NewtonsoftExtensions.sln'
+    command: restore
+    projects: '**/*.sln'
