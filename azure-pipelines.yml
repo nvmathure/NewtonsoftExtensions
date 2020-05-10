@@ -1,6 +1,11 @@
 trigger:
   - master
 
+pr:
+ branches:
+   include:
+     - master
+
 variables:
   solutionFile : '$(Build.SourcesDirectory)/Src/NewtonsoftExtensions.sln'
   configuration: 'release'
