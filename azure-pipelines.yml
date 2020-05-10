@@ -1,12 +1,26 @@
 trigger:
   - master
 
-pool:
-  vmImage: 'ubuntu-latest'
+variables:
+  solutionFile : '$(Build.SourcesDirectory)/Src/NewtonsoftExtensions.sln'
+  configuration: 'release'
 
+stages:
+- stage: Build
+  jobs:
+  - job: Build
 
-steps:
-- task: DotNetCoreCLI@2
-  inputs:
-    command: restore
-    projects: '$(Build.SourcesDirectory)/Src/NewtonsoftExtensions.sln'
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    steps:
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: restore
+        projects: $(solutionFile)
+
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: build
+        projects: $(solutionFile)
+        arguments: --configuration $(configuration)
