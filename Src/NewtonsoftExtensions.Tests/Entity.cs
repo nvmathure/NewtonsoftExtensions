@@ -1,4 +1,4 @@
-﻿namespace NewtonsoftExtensions.Tests
+﻿namespace CloudNDevOps.Newtonsoft.Extensions.Tests
 {
     public class Entity<TType>
     {
