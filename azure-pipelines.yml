@@ -1,0 +1,67 @@
+trigger:
+  - master
+
+pr:
+ branches:
+   include:
+     - master
+
+variables:
+  solutionFile : '$(Build.SourcesDirectory)\Src\NewtonsoftExtensions.sln'
+  configuration: 'release'
+
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SonarCloud-Public'
+    organization: 'cloudndevops'
+    scannerMode: 'MSBuild'
+    projectKey: 'Newtonsoft.Extensions'
+    projectName: 'Newtonsoft.Extensions'
+    extraProperties: 'sonar.cs.vscoveragexml.reportsPaths = $(Build.SourceDirectory)\**\coverage.xml'
+
+- task: DotNetCoreCLI@2
+  displayName: Restore NuGet Packages
+  inputs:
+    command: restore
+    projects: $(solutionFile)
+
+- task: DotNetCoreCLI@2
+  displayName: Build Solution
+  inputs:
+    command: build
+    projects: $(solutionFile)
+    configuration: $(configuration)
+    arguments: --no-restore
+
+- task: DotNetCoreCLI@2
+  displayName: Execute Test Cases
+  inputs:
+    command: test
+    projects: $(solutionFile)
+    configuration: $(configuration)
+    arguments: --no-build --collect:"Code Coverage"
+
+- task: SonarCloudAnalyze@1
+
+- task: SonarCloudPublish@1
+
+- task: DotNetCoreCLI@2
+  displayName: Package NuGet
+  inputs:
+   command: pack
+   projects: $(solutionFile)
+   configuration: $(configuration)
+
+- task: NuGetPublisher@0
+  displayName: Publish NuGet Package
+  inputs:
+    searchPattern: '**/*.nupkg;-:**/packages/**/*.nupkg;-:**/*.symbols.nupkg'
+    nuGetFeedType: 'external'
+    nuGetVersion: '4.0.0.2283'
+    
+
+#  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))   
