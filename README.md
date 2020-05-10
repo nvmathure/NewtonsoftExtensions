@@ -38,17 +38,17 @@ public class Organization : Customer
 First parameter is function, which need to return value of classifier based on instance of object. Second parameter is dictionary of value of classifier and type of derived class.
 
 ```C#
-var typeFamilyConverter = new TypeFamilyConverter<Entity<string>, string>(
+var typeFamilyConverter = new TypeFamilyConverter<Customer, string>(
     new Func<Entity<string>, string>(e => e.Classifier),
     new Dictionary<string, Type>
     {
-        { "Individual", typeof(IndividualEntity<string>) },
-        { "Organization", typeof(OrganizationEntity<string>) }
+        { "Individual", typeof(Individual) },
+        { "Organization", typeof(Organization) }
     });
 ```
 ### De-Serialize using Newtonsoft JsonConvert Class
 ```C#
-var result = JsonConvert.DeserializeObject<List<Entity<string>>>(
+var result = JsonConvert.DeserializeObject<List<Customer>>(
     inputString,
     new JsonSerializerSettings
     {
