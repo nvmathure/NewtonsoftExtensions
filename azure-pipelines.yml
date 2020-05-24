@@ -21,7 +21,7 @@ steps:
     scannerMode: 'MSBuild'
     projectKey: 'Newtonsoft.Extensions'
     projectName: 'Newtonsoft.Extensions'
-    extraProperties: 'sonar.cs.vscoveragexml.reportsPaths = $(Build.SourceDirectory)\**\*.coverage'
+    extraProperties: 'sonar.cs.vscoveragexml.reportsPaths = $(Build.ArtifactStagingDirectory)\**\*.coverage'
 
 - task: DotNetCoreCLI@2
   displayName: Restore NuGet Packages
