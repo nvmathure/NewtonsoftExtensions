@@ -24,7 +24,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace CloudNDevOps.Newtonsoft.Extensions
 {
@@ -37,30 +36,36 @@ namespace CloudNDevOps.Newtonsoft.Extensions
     {
         private readonly Func<TBase, TBaseClassifier> _typeValueFunc;
         private readonly IDictionary<TBaseClassifier, Type> _typeLookupDictionary;
-        private readonly IEnumerable<Type> _supportedTypes;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="TypeFamilyConverter{TBase,TBaseClassifier}"/>
+        /// </summary>
+        /// <param name="typeValueFunc">Function which accepts an object and returns value of classifier</param>
+        /// <param name="typeLookupDictionary">Dictionary of Classifiers and Type the Classifier represents</param>
         public TypeFamilyConverter(Func<TBase, TBaseClassifier> typeValueFunc, IDictionary<TBaseClassifier, Type> typeLookupDictionary)
         {
             _typeValueFunc = typeValueFunc ?? throw new ArgumentNullException(nameof(typeValueFunc));
             _typeLookupDictionary = typeLookupDictionary ?? throw new ArgumentNullException(nameof(typeLookupDictionary));
-            _supportedTypes = _typeLookupDictionary.Keys.Select(k => _typeLookupDictionary[k]).ToArray();
         }
 
+        /// <inheritdoc cref="JsonConverter"/>
         public override bool CanConvert(Type objectType)
         {
             return objectType == typeof(TBase);
         }
 
+        /// <inheritdoc cref="JsonConverter"/>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var jo = JObject.Load(reader);
             var baseObject = jo.ToObject<TBase>();
             var classifier = _typeValueFunc(baseObject);
             if (!_typeLookupDictionary.TryGetValue(classifier, out Type derivedType)) 
-                throw new InvalidOperationException($"Classifier {classifier.ToString()} is not recognized");
+                throw new InvalidOperationException($"Classifier {classifier} is not recognized");
             return jo.ToObject(derivedType, serializer);
         }
 
+        /// <inheritdoc cref="JsonConverter"/>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             throw new NotImplementedException();
