@@ -9,6 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewtonsoftExtensions", "New
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{91F62A2F-67A1-4807-9674-5D342B1109F0}"
 	ProjectSection(SolutionItems) = preProject
+		..\.runsettings = ..\.runsettings
 		..\azure-pipelines.yml = ..\azure-pipelines.yml
 		..\LICENSE = ..\LICENSE
 	EndProjectSection
