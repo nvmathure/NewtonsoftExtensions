@@ -43,7 +43,7 @@ steps:
     command: test
     projects: $(solutionFile)
     configuration: $(configuration)
-    arguments: --no-build --collect:"Code Coverage" --settings '$(Build.SourcesDirectory)\.runsettings' --collect:"XPlat Code Coverage"
+    arguments: --no-build --collect:"Code Coverage" --settings '.runsettings' --collect:"XPlat Code Coverage"
 
 - task: SonarCloudAnalyze@1
 
