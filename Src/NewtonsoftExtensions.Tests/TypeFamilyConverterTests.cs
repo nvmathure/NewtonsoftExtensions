@@ -19,7 +19,10 @@ namespace CloudNDevOps.Newtonsoft.Extensions.Tests
                 {"Individual", typeof(IndividualEntity<string>)},
                 {"Organization", typeof(OrganizationEntity<string>)}
             };
-            Action act = () => { new TypeFamilyConverter<Entity<string>, string>(null, dictionary); };
+            Action act = () =>
+            {
+                var unused = new TypeFamilyConverter<Entity<string>, string>(null!, dictionary);
+            };
 
             // Act & Asset
             act.Should().Throw<ArgumentNullException>()
@@ -30,7 +33,10 @@ namespace CloudNDevOps.Newtonsoft.Extensions.Tests
         public void TestConstructorWithNullDictionary()
         {
             // Arrange
-            Action act = () => { new TypeFamilyConverter<Entity<string>, string>(e => "Dummy", null); };
+            Action act = () =>
+            {
+                var unused = new TypeFamilyConverter<Entity<string>, string>(e => "Dummy", null!);
+            };
 
             // Act & Asset
             act.Should().Throw<ArgumentNullException>()
