@@ -45,5 +45,13 @@ steps:
     arguments: --no-build --collect:"Code Coverage"
 
 - task: SonarCloudAnalyze@1
+  displayName: SonarQube Analysis
 
 - task: SonarCloudPublish@1
+  displayName: Publish to SonarCloud
+
+- task: NuGetAuthenticate@0
+  displayName: Authenticate to NuGet.Org
+  inputs:
+    nuGetServiceConnections: 'NuGet - CloudNDevOps.Newtonsoft.Extensions'
+    forceReinstallCredentialProvider: true
