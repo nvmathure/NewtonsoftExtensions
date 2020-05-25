@@ -21,7 +21,7 @@ steps:
     scannerMode: 'MSBuild'
     projectKey: 'Newtonsoft.Extensions'
     projectName: 'Newtonsoft.Extensions'
-    extraProperties: 'sonar.cs.vscoveragexml.reportsPaths = $(Build.ArtifactStagingDirectory)\**\*.coverage'
+    extraProperties: 'sonar.cs.vstest.reportsPaths=$(System.DefaultWorkingDirectory)/TestResults/**/*.coverage'
 
 - task: DotNetCoreCLI@2
   displayName: Restore NuGet Packages
@@ -42,9 +42,8 @@ steps:
   inputs:
     command: 'test'
     projects: '$(solutionFile)'
-    arguments: '--no-build --collect:"Code Coverage" --results-directory $(Build.ArtifactStagingDirectory)  --collect:"XPlat Code Coverage" --settings .runsettings'
-    publishTestResults: false
-    workingDirectory: '$(Build.SourcesDirectory)'
+    nobuild: true
+    arguments: '--configuration $(BuildConfiguration) --collect:"Code Coverage" --settings .runsettings'
 
 - task: SonarCloudAnalyze@1
 
