@@ -42,7 +42,6 @@ steps:
   inputs:
     command: test
     projects: $(solutionFile)
-    configuration: $(configuration)
     arguments: --no-build --collect:"Code Coverage"
 
 - task: SonarCloudAnalyze@1
