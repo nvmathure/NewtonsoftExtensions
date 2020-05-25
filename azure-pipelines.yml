@@ -40,11 +40,11 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: Execute Test Cases
   inputs:
-    command: test
-    projects: $(solutionFile)
-    configuration: $(configuration)
-    arguments: --no-build --collect:"Code Coverage" --results-directory $(Build.ArtifactStagingDirectory)  --collect:"XPlat Code Coverage" --settings .runsettings
-    workingDirectory: $(Build.SourcesDirectory)
+    command: 'test'
+    projects: '$(solutionFile)'
+    arguments: '--no-build --collect:"Code Coverage" --results-directory $(Build.ArtifactStagingDirectory)  --collect:"XPlat Code Coverage" --settings .runsettings'
+    publishTestResults: false
+    workingDirectory: '$(Build.SourcesDirectory)'
 
 - task: SonarCloudAnalyze@1
 
