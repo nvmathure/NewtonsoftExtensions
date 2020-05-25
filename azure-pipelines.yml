@@ -49,3 +49,12 @@ steps:
 - task: SonarCloudAnalyze@1
 
 - task: SonarCloudPublish@1
+
+- task: DotNetCoreCLI@2
+  displayName: Create NuGet Package
+  inputs:
+   command: pack
+   projects: $(solutionFile)
+   configuration: $(configuration)
+   nobuild: true
+   
