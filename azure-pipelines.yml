@@ -44,7 +44,7 @@ steps:
     projects: $(solutionFile)
     configuration: $(configuration)
     arguments: --no-build --collect:"Code Coverage" --settings .runsettings --collect:"XPlat Code Coverage"
-    workingDirectory: $(Build.ArtifactStagingDirectory)
+    workingDirectory: $(Build.SourcesDirectory)
 
 - task: SonarCloudAnalyze@1
 
