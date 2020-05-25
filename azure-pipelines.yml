@@ -42,8 +42,9 @@ steps:
   inputs:
     command: 'test'
     projects: '$(solutionFile)'
+    configuration: $(BuildConfiguration)
     nobuild: true
-    arguments: '--configuration $(BuildConfiguration) --collect:"Code Coverage" --settings .runsettings'
+    arguments: '--collect:"Code Coverage" --settings .runsettings'
 
 - task: SonarCloudAnalyze@1
 
