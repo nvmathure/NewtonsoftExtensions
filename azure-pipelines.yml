@@ -66,11 +66,17 @@ steps:
    nobuild: true
 
 - task: NuGetCommand@2
+  displayName: Publish NuGet Package to NuGet.org
   inputs:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
     nuGetFeedType: 'external'
     publishFeedCredentials: 'NuGet - CloudNDevOps.Newtonsoft.Extensions'
 
-
-
+- task: NuGetCommand@2
+  displayName: Publish Symbols Package to NuGet.org
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.snupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'NuGet - CloudNDevOps.Newtonsoft.Extensions'
