@@ -40,11 +40,11 @@ steps:
 - task: DotNetCoreCLI@2
   displayName: Execute Test Cases
   inputs:
-    command: 'test'
-    projects: '$(solutionFile)'
-    configuration: $(BuildConfiguration)
+    command: test
+    projects: $(solutionFile)
+    configuration: $(configuration)
     nobuild: true
-    arguments: '--collect:"Code Coverage"'
+    arguments: --collect:"Code Coverage"
 
 - task: SonarCloudAnalyze@1
 
