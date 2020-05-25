@@ -14,6 +14,11 @@ pool:
   vmImage: 'windows-latest'
 
 steps:
+- task: NuGetToolInstaller@1
+  displayName: Install NuGet Client
+  inputs:
+    checkLatest: true
+
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'SonarCloud-CloudNDevOps'
@@ -21,7 +26,7 @@ steps:
     scannerMode: 'MSBuild'
     projectKey: 'Newtonsoft.Extensions'
     projectName: 'Newtonsoft.Extensions'
-    extraProperties: 'sonar.cs.vscoveragexml.reportsPaths = $(Build.SourceDirectory)\**\*.coverage'
+    extraProperties: 'sonar.cs.vstest.reportsPaths=$(System.DefaultWorkingDirectory)/TestResults/**/*.coverage'
 
 - task: DotNetCoreCLI@2
   displayName: Restore NuGet Packages
@@ -42,16 +47,31 @@ steps:
   inputs:
     command: test
     projects: $(solutionFile)
-    arguments: --no-build --collect:"Code Coverage"
+    configuration: $(configuration)
+    nobuild: true
+    arguments: --collect:"Code Coverage"
 
 - task: SonarCloudAnalyze@1
   displayName: SonarQube Analysis
 
 - task: SonarCloudPublish@1
   displayName: Publish to SonarCloud
-
-- task: NuGetAuthenticate@0
-  displayName: Authenticate to NuGet.Org
+  
+- task: DotNetCoreCLI@2
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  displayName: Create NuGet Package
   inputs:
-    nuGetServiceConnections: 'NuGet - CloudNDevOps.Newtonsoft.Extensions'
-    forceReinstallCredentialProvider: true
+   command: pack
+   projects: $(solutionFile)
+   configuration: $(configuration)
+   nobuild: true
+
+- task: NuGetCommand@2
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  displayName: Publish NuGet Package and Symbols to NuGet.org
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'NuGet - CloudNDevOps.Newtonsoft.Extensions'
+

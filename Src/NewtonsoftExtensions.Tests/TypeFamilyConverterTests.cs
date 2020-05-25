@@ -11,13 +11,46 @@ namespace CloudNDevOps.Newtonsoft.Extensions.Tests
     public class TypeFamilyConverterTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestConstructorWithNullFunction()
+        {
+            // Arrange
+            var dictionary = new Dictionary<string, Type>
+            {
+                {"Individual", typeof(IndividualEntity<string>)},
+                {"Organization", typeof(OrganizationEntity<string>)}
+            };
+            Action act = () =>
+            {
+                var unused = new TypeFamilyConverter<Entity<string>, string>(null!, dictionary);
+            };
+
+            // Act & Asset
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("typeValueFunc");
+        }
+
+        [TestMethod]
+        public void TestConstructorWithNullDictionary()
+        {
+            // Arrange
+            Action act = () =>
+            {
+                var unused = new TypeFamilyConverter<Entity<string>, string>(e => "Dummy", null!);
+            };
+
+            // Act & Asset
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("typeLookupDictionary");
+        }
+
+        [TestMethod]
+        public void TestReadJsonMethod()
         {
             // Arrange 
-            string inputString = "[ { \"Code\" : \"C1\", \"Classifier\" : \"Individual\", \"FirstName\" : \"John\", \"LastName\" : \"Doe\" }, " +
-                "{ \"Code\" : \"C2\", \"Classifier\" : \"Organization\", \"Name\" : \"Some Organization\" } ]";
+            const string inputString = "[ { \"Code\" : \"C1\", \"Classifier\" : \"Individual\", \"FirstName\" : \"John\", \"LastName\" : \"Doe\" }, " +
+                                       "{ \"Code\" : \"C2\", \"Classifier\" : \"Organization\", \"Name\" : \"Some Organization\" } ]";
             var typeFamilyConverter = new TypeFamilyConverter<Entity<string>, string>(
-                new Func<Entity<string>, string>(e => e.Classifier),
+                e => e.Classifier,
                 new Dictionary<string, Type>
                 {
                     { "Individual", typeof(IndividualEntity<string>) },
@@ -48,6 +81,31 @@ namespace CloudNDevOps.Newtonsoft.Extensions.Tests
             var siOrganization = (OrganizationEntity<string>)si;
             siOrganization.Name.Should().Be("Some Organization");
 
+        }
+
+        [TestMethod]
+        public void TestReadJsonMethodWithInvalidClassifier()
+        {
+            // Arrange 
+            const string inputString = "[ { \"Code\" : \"C1\", \"Classifier\" : \"Individual\", \"FirstName\" : \"John\", \"LastName\" : \"Doe\" }, " +
+                                       "{ \"Code\" : \"C2\", \"Classifier\" : \"Organization\", \"Name\" : \"Some Organization\" } ]";
+            var typeFamilyConverter = new TypeFamilyConverter<Entity<string>, string>(
+                e => "Dummy",
+                new Dictionary<string, Type>
+                {
+                    {"Individual", typeof(IndividualEntity<string>)},
+                    {"Organization", typeof(OrganizationEntity<string>)}
+                });
+            Action act = () => JsonConvert.DeserializeObject<List<Entity<string>>>(
+                inputString,
+                new JsonSerializerSettings
+                {
+                    Converters = { typeFamilyConverter }
+                });
+
+            // Act & Assert
+            act.Should().Throw<InvalidOperationException>()
+                .And.Message.Should().Contain("Dummy");
         }
     }
 }
