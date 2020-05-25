@@ -47,9 +47,11 @@ steps:
     arguments: --collect:"Code Coverage"
 
 - task: SonarCloudAnalyze@1
+  displayName: SonarQube Analysis
 
 - task: SonarCloudPublish@1
-
+  displayName: Publish to SonarCloud
+  
 - task: DotNetCoreCLI@2
   displayName: Create NuGet Package
   inputs:
@@ -63,6 +65,3 @@ steps:
   inputs:
     nuGetServiceConnections: 'NuGet - CloudNDevOps.Newtonsoft.Extensions'
     forceReinstallCredentialProvider: true
-
-
-   
