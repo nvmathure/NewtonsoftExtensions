@@ -58,6 +58,7 @@ steps:
   displayName: Publish to SonarCloud
   
 - task: DotNetCoreCLI@2
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   displayName: Create NuGet Package
   inputs:
    command: pack
@@ -66,17 +67,11 @@ steps:
    nobuild: true
 
 - task: NuGetCommand@2
-  displayName: Publish NuGet Package to NuGet.org
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  displayName: Publish NuGet Package and Symbols to NuGet.org
   inputs:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
     nuGetFeedType: 'external'
     publishFeedCredentials: 'NuGet - CloudNDevOps.Newtonsoft.Extensions'
 
-- task: NuGetCommand@2
-  displayName: Publish Symbols Package to NuGet.org
-  inputs:
-    command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.snupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
-    nuGetFeedType: 'external'
-    publishFeedCredentials: 'NuGet - CloudNDevOps.Newtonsoft.Extensions'
