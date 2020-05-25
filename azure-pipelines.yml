@@ -57,4 +57,12 @@ steps:
    projects: $(solutionFile)
    configuration: $(configuration)
    nobuild: true
+
+- task: NuGetAuthenticate@0
+  displayName: Authenticate to NuGet.Org
+  inputs:
+    nuGetServiceConnections: 'NuGet - CloudNDevOps.Newtonsoft.Extensions'
+    forceReinstallCredentialProvider: true
+
+
    
