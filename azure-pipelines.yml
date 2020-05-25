@@ -43,7 +43,8 @@ steps:
     command: test
     projects: $(solutionFile)
     configuration: $(configuration)
-    arguments: --no-build --collect:"Code Coverage" --settings .runsettings --collect:"XPlat Code Coverage" --results-directory $(Build.ArtifactStagingDirectory)
+    arguments: --no-build --collect:"Code Coverage" --settings .runsettings --collect:"XPlat Code Coverage"
+    workingDirectory: $(Build.ArtifactStagingDirectory)
 
 - task: SonarCloudAnalyze@1
 
