@@ -16,7 +16,7 @@ pool:
 steps:
 - task: SonarCloudPrepare@1
   inputs:
-    SonarCloud: 'SonarCloud-Public'
+    SonarCloud: 'SonarCloud-CloudNDevOps'
     organization: 'cloudndevops'
     scannerMode: 'MSBuild'
     projectKey: 'Newtonsoft.Extensions'
