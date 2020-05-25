@@ -14,6 +14,11 @@ pool:
   vmImage: 'windows-latest'
 
 steps:
+- task: NuGetToolInstaller@1
+  displayName: Install NuGet Client
+  inputs:
+    checkLatest: true
+
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'SonarCloud-CloudNDevOps'
@@ -60,8 +65,12 @@ steps:
    configuration: $(configuration)
    nobuild: true
 
-- task: NuGetAuthenticate@0
-  displayName: Authenticate to NuGet.Org
+- task: NuGetCommand@2
   inputs:
-    nuGetServiceConnections: 'NuGet - CloudNDevOps.Newtonsoft.Extensions'
-    forceReinstallCredentialProvider: true
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'NuGet - CloudNDevOps.Newtonsoft.Extensions'
+
+
+
